@@ -14,6 +14,7 @@ from sklearn.svm import SVC
 import itertools
 
 import glob
+import pandas as pd
 
 # Example code provided
 M = np.array([[1,2],[3,4],[4,5],[4,5],[4,5],[4,5],[4,5],[4,5]])
@@ -162,8 +163,6 @@ def compareModels(modelDict = {}, df = (),):
 # The original data downloaded contained some inconsistencies between the column names
 # after trying to play around with automating the process to create a dataframe without Pandas,
 # I decided to go ahead and just manually change the CSV column names to match
-import glob
-import pandas as pd
 
 #I am not sure why the following code doesnt work
 # #Importing all rows from all relevant files using Glob
@@ -224,9 +223,9 @@ shuffle = False
 models['rf'] = dict()
 models['rf']['function'] = RandomForestClassifier
 models['rf']['hypers'] = dict()
-models['rf']['hypers']['n_estimators']=[50,100]
-models['rf']['hypers']['class_weight']=['balanced',None]
-models['rf']['hypers']['min_impurity_decrease'] = [0.0, 1.0]
+models['rf']['hypers']['n_estimators']=[50,100, 200]
+models['rf']['hypers']['class_weight']=['balanced', 'balanced_subsample',None]
+models['rf']['hypers']['min_impurity_decrease'] = [0.0, .5, 1.0]
 models['rf']['cvInfo'] = dict()
 models['rf']['cvInfo']['cvFunction'] = KFold
 models['rf']['cvInfo']['nSplits'] = splits
@@ -236,9 +235,9 @@ models['rf']['cvInfo']['shuffle'] = shuffle
 models['svc'] = dict()
 models['svc']['function'] = SVC
 models['svc']['hypers'] = dict()
-models['svc']['hypers']['C']=[1,2]
-models['svc']['hypers']['class_weight']=['balanced',None]
-models['svc']['hypers']['kernel'] = ['rbf','linear']
+models['svc']['hypers']['C']=[1,2, 5]
+models['svc']['hypers']['tol']=[1e-3, .5e-3, 1e-2]
+models['svc']['hypers']['kernel'] = ['rbf','linear', 'sigmoid']
 models['svc']['cvInfo'] = dict()
 models['svc']['cvInfo']['cvFunction'] = KFold
 models['svc']['cvInfo']['nSplits'] = splits
